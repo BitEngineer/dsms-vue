@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-// 通用配置
+// 全局配置
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL = 'http://localhost:8090/dsms';
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -9,9 +9,9 @@ axios.defaults.baseURL = 'http://localhost:8090/dsms';
 // 拦截器
 // request
 axios.interceptors.request.use((config) => {
-    if(config.method  === 'post'){
-      config.data = qs.stringify(config.data);
-    }
+    // if(config.method  === 'post'){
+    //   config.data = qs.stringify(config.data);
+    // }
     return config;
 },(error) =>{
     return Promise.reject(error);
@@ -26,6 +26,12 @@ axios.interceptors.response.use((res) =>{
 }, (error) => {
     //404等问题可以在这里处理
     return Promise.reject(error);
+});
+
+// 定义实例
+let axiosInst = axios.create({
+    timeout: 5000,
+    baseURL: 'http://localhost:8090/dsms'
 });
 
 export default axios;

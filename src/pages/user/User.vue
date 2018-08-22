@@ -18,7 +18,8 @@
                 <Button type="primary" @click="doEdit">修改</Button>
                 <Button type="primary" @click="doDel">删除</Button>
             </div>
-            <Table :data="userTableData" :columns="userTableColumns" stripe></Table>
+            <Table :data="userTableData" :columns="userTableColumns" stripe
+                @on-selection-change="onSelectionChange"></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
                     <Page :total="total" :current="current" :page-size="pageSize" @on-change="changePage"></Page>
@@ -102,6 +103,11 @@
                         align: 'center'
                     },
                     {
+                        title: '用户id',
+                        key: 'staffId',
+                        hidden: true
+                    },
+                    {
                         title: '用户编码',
                         key: 'staffCode',
                     },
@@ -151,7 +157,8 @@
                 userFormData: {
                     staffCode: '',
                     staffName: ''
-                }
+                },
+                selectedRows: []
             }
         },
         mounted: function() {
@@ -188,6 +195,10 @@
             doSearch(searchFormModel) {
                 this.requestUserTableData(this.searchFormModel, this.current, this.pageSize);
             },
+            onSelectionChange(selections) {
+                console.log(selections);
+                this.selectedRows = selections;
+            },
             doReset(name) {
                 this.$refs[name].resetFields();
             },
@@ -197,15 +208,52 @@
                 this.userOperation = 'add';
             },
             doEdit() {
-
+                if(this.selectedRows.length === 0) {
+                    this.$Message.warning("必须选择一行");
+                    return;
+                }
+                if(this.selectedRows.length > 1) {
+                    this.$Message.warning("最多只能选择一行");
+                    return;
+                }
+                this.userModal = true;
+                this.userOperation = 'edit';
+                this.userFormData = this.selectedRows[0];
             },
             doDel() {
-
+                if(this.selectedRows.length === 0) {
+                    this.$Message.warning("必须选择一行");
+                    return;
+                }
+                if(this.selectedRows.length > 1) {
+                    this.$Message.warning("最多只能选择一行");
+                    return;
+                }
+                this.$Modal.confirm({
+                    title: '删除',
+                    content: '是否删除选中项？',
+                    // onOk: function() {
+                    onOk: () => {  // 箭头函数可以访问this
+                        // 默认会关闭对话框
+                        this.$axios.delete('/app/user/' + this.selectedRows[0].staffId).then(res => {
+                            this.$Message.success('删除成功');
+                        }).catch();
+                    },
+                    onCancel: function() {
+                        // 默认会关闭对话框，不用手动关闭
+                        // this.$Modal.remove();
+                    }
+                });
             },
             userModalCommit() {
                 if(this.userOperation === 'add') {
                     var params = this.userFormData;
                     this.$axios.post('/app/user', this.userFormData).then(res => {
+                        this.$Message.success("新增成功");
+                    }).catch();
+                }else if(this.userOperation === 'edit') {
+                    var params = this.userFormData;
+                    this.$axios.put('/app/user', this.userFormData).then(res => {
 
                     }).catch();
                 }

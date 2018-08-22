@@ -27,6 +27,11 @@ Vue.component("videojs-player", player);
 // 全局注册axios
 Vue.prototype.$axios = axios;
 
+// 全局配置-iview
+Vue.prototype.$Message.config({
+    duration: 2
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
