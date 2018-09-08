@@ -112,7 +112,7 @@
                 }else if(name === '2-1') {
                     this.$router.push('/video1');
                 }else if(name === '2-2') {
-                    this.$router.push('/video2');
+                    this.$router.push('/video3');
                 }
             }
         }

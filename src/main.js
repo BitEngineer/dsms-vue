@@ -14,6 +14,7 @@ import 'videojs-flash'
 
 // 组件引入
 import player from "@/components/player"
+import FlashPlayer from "@/components/player-with-flash"
 
 Vue.config.productionTip = false
 
@@ -23,6 +24,7 @@ Vue.use(VueVideoPlayer)
 
 // 组件注册-全局
 Vue.component("videojs-player", player);
+Vue.component("videojs-player-with-flash", FlashPlayer);
 
 // 全局注册axios
 Vue.prototype.$axios = axios;

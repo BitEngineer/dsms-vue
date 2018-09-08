@@ -7,6 +7,7 @@ import video from '@/pages/video/video'
 import videos from '@/pages/video/videos'
 import video1 from '@/pages/video/video1'
 import video2 from '@/pages/video/video2'
+import video3 from '@/pages/video/video3'
 
 Vue.use(Router)
 
@@ -46,7 +47,12 @@ export default new Router({
           path: 'video2',
           name: 'video2',
           component: video2
-        }
+        },
+        {
+            path: 'video3',
+            name: 'video3',
+            component: video3
+          }
       ]
     }
   ]
