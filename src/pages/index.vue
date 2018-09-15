@@ -106,6 +106,8 @@
             selectSiderMenu: function(name) {
                 if(name === '1-1') {
                     this.$router.push('/user');
+                }else if(name === '1-2') {
+                    this.$router.push('/tableDemo');
                 }else if(name === '2-1') {
                     this.$router.push('/video');
                 }else if(name === '2-2') {
