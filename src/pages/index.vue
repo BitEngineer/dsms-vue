@@ -31,7 +31,7 @@
                     <div class="layout-nav">
                         <MenuItem name="1">
                             <Icon type="ios-navigate"></Icon>
-                            系统管理
+                            Item 1
                         </MenuItem>
                         <MenuItem name="2">
                             <Icon type="ios-keypad"></Icon>
@@ -56,24 +56,25 @@
                         <Submenu name="1">
                             <template slot="title">
                                 <Icon type="ios-navigate"></Icon>
-                                用户管理
+                                系统管理
                             </template>
-                            <MenuItem name="1-1">Option 1</MenuItem>
-                            <MenuItem name="1-2">Option 2</MenuItem>
-                            <MenuItem name="1-3">Option 3</MenuItem>
+                            <MenuItem name="1-1">用户管理</MenuItem>
+                            <MenuItem name="1-2">角色管理</MenuItem>
+                            <MenuItem name="1-3">菜单管理</MenuItem>
                         </Submenu>
                         <Submenu name="2">
                             <template slot="title">
                                 <Icon type="ios-keypad"></Icon>
-                                角色管理
+                                视频
                             </template>
-                            <MenuItem name="2-1">Option 1</MenuItem>
-                            <MenuItem name="2-2">Option 2</MenuItem>
+                            <MenuItem name="2-1">vue整合videojs演示</MenuItem>
+                            <MenuItem name="2-2">动态切换数据源</MenuItem>
+                            <MenuItem name="2-3">提示加载flash</MenuItem>
                         </Submenu>
                         <Submenu name="3">
                             <template slot="title">
                                 <Icon type="ios-analytics"></Icon>
-                                菜单管理
+                                地图
                             </template>
                             <MenuItem name="3-1">Option 1</MenuItem>
                             <MenuItem name="3-2">Option 2</MenuItem>
@@ -105,14 +106,12 @@
             selectSiderMenu: function(name) {
                 if(name === '1-1') {
                     this.$router.push('/user');
-                }else if(name === '1-2') {
-                    this.$router.push('/video');
-                }else if(name === '1-3') {
-                    this.$router.push('/videos');
                 }else if(name === '2-1') {
-                    this.$router.push('/video1');
+                    this.$router.push('/video');
                 }else if(name === '2-2') {
-                    this.$router.push('/video3');
+                    this.$router.push('/video1');
+                }else if(name === '2-3') {
+                    this.$router.push('/video2');
                 }
             }
         }

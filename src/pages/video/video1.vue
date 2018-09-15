@@ -16,6 +16,8 @@
 </template>
 
 <script>
+  // videojs在初始化播放器的时候一定要指定播放源，否则会报错
+  // VIDEOJS: ERROR: (CODE:4 MEDIA_ERR_SRC_NOT_SUPPORTED) No compatible source was found for this media.
   export default {
     data() {
       return {
