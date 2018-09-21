@@ -4,7 +4,7 @@ import {Message} from 'iview'
 
 // 通用配置
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = 'http://localhost:9090/dsms';
+axios.defaults.baseURL = 'http://localhost:9090/dsms/api';
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 // 拦截器
