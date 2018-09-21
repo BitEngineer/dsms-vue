@@ -22,6 +22,7 @@ import TableWithPage from '@/components/table-with-page/table-with-page'
 
 Vue.config.productionTip = false
 
+// 插件
 Vue.use(router)
 Vue.use(iView)
 Vue.use(VueVideoPlayer)
@@ -33,6 +34,12 @@ Vue.component('table-with-page', TableWithPage)
 
 // 全局注册axios
 Vue.prototype.$axios = axios
+
+// 全局提示，使用iview的message组件
+// 全局提示的全局配置
+Vue.prototype.$Message.config({
+    duration: 2
+})
 
 /* eslint-disable no-new */
 new Vue({

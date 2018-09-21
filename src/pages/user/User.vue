@@ -9,7 +9,7 @@
                     <Input type="text" v-model="searchFormModel.staffName" placeholder="用户名"></Input>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" @click="doSearch('searchFormModel')">查询</Button>
+                    <Button type="primary" @click="doSearch">查询</Button>
                     <Button type="primary" @click="doReset('searchFormModel')">重置</Button>
                 </FormItem>
             </Form>
@@ -18,7 +18,8 @@
                 <Button type="primary" @click="doEdit">修改</Button>
                 <Button type="primary" @click="doDel">删除</Button>
             </div>
-            <Table :data="userTableData" :columns="userTableColumns" stripe></Table>
+            <Table :data="userTableData" :columns="userTableColumns" stripe
+                @on-selection-change="onSelectionChange"></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
                     <Page :total="total" :current="current" :page-size="pageSize" @on-change="changePage"></Page>
@@ -54,8 +55,8 @@
                     <Col span="11">
                         <FormItem prop="sex" label="性别">
                             <RadioGroup v-model="userFormData.sex">
-                                <Radio label="male">男</Radio>
-                                <Radio label="female">女</Radio>
+                                <Radio label="1">男</Radio>
+                                <Radio label="0">女</Radio>
                             </RadioGroup>
                         </FormItem>
                     </Col>
@@ -94,6 +95,7 @@
     export default {
         data () {
             return {
+                // table
                 userTableData: [],
                 userTableColumns: [
                     {
@@ -138,6 +140,9 @@
                         key: 'address'
                     },
                 ],
+                // 表格选中数据项
+                selections: [],
+                // page
                 total: 0,
                 current: 1,
                 pageSize: 10,
@@ -148,10 +153,7 @@
                 },
                 userModal: false,
                 userOperation: '',
-                userFormData: {
-                    staffCode: '',
-                    staffName: ''
-                }
+                userFormData: {}, 
             }
         },
         mounted: function() {
@@ -164,9 +166,10 @@
                     pageSize: pageSize
                 };
                 Object.assign(requestParam, searchParam);
-                // 原生axios的get方法，不能接受数据参数
+                // 原生axios的get方法，不能接受数据参数，参数必须跟在url后面
                 // this.$axios.get('app/user/page', requestParam)
                 this.$axios.get('app/user/page?' + qs.stringify(requestParam))
+                // this.$axios.get('app/user/page')
                 // https://blog.csdn.net/Dear_Mr/article/details/75734332
                 // 写成箭头函数，才能访问vue的实例this
                 // .then(function(response) {
@@ -176,16 +179,21 @@
                 .then((response) => {
                     this.userTableData = response.data.data.records;
                     this.total = response.data.data.total;
+                    // this.$Message.success('查询成功');
                 })
-                .catch(function(error){
-
+                .catch((error) => {
+                    // this.$Message.error(error.response.status);
+                    console.log(error);
                 })
+            },
+            onSelectionChange(selections) {
+                this.selections = selections;
             },
             changePage (currentPage) {
                 this.current = currentPage;
                 this.requestUserTableData({}, this.current, this.pageSize);
             },
-            doSearch(searchFormModel) {
+            doSearch() {
                 this.requestUserTableData(this.searchFormModel, this.current, this.pageSize);
             },
             doReset(name) {
@@ -195,9 +203,18 @@
                 // 弹出窗口
                 this.userModal = true;
                 this.userOperation = 'add';
+                this.userFormData = {};
             },
             doEdit() {
-
+                if(this.selections.length === 0) {
+                    return;
+                }
+                if(this.selections.length > 1) {
+                    return;
+                }
+                this.userModal = true;
+                this.userOperation = 'edit';
+                this.userFormData = this.selections[0];
             },
             doDel() {
 
