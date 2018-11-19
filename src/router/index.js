@@ -7,6 +7,7 @@ import TableDemo from '@/pages/user/TableDemo'
 import video from '@/pages/video/video'
 import video1 from '@/pages/video/video1'
 import video2 from '@/pages/video/video2'
+import EditableTable from '@/pages/demo/EditableTable'
 
 Vue.use(Router)
 
@@ -46,7 +47,12 @@ export default new Router({
           path: '/video2',
           name: 'video2',
           component: video2
-        }
+        },
+        {
+          path: '/editableTable',
+          name: 'editableTable',
+          component: EditableTable
+        },
       ]
     }
   ]
