@@ -8,7 +8,7 @@ import video from '@/pages/video/video'
 import video1 from '@/pages/video/video1'
 import video2 from '@/pages/video/video2'
 import EditableTable from '@/pages/demo/EditableTable'
-import StatusTableDemo from '@/pages/status-table/status-table-demo'
+import StatusTableDemo from '@/pages/status-table/status-table'
 import HandsonTableDemo from '@/pages/demo/handson-table-demo'
 
 Vue.use(Router)

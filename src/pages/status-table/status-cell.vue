@@ -17,11 +17,7 @@ export default {
       default: 20,
     },
     // prop值不应该在组件内部改变--单向数据流
-    // value: {
-    //   type: Number,
-    //   default: 1
-    // },
-    initValue: {
+    value: {
       type: Number,
       default: 1
     },
@@ -42,7 +38,9 @@ export default {
   },
   data() {
     return {
-      value: this.initValue,
+      status: this.value,
+      backcolor: this.getBackcolorByValue(this.value),
+      text: this.getTextByValue(this.value),
     }
   },
   computed: {
@@ -63,44 +61,68 @@ export default {
 
     // 上面的代码不生效，可能与forEach的特性有关，return必须放在forEach外面
 
-    backcolor: function() {
-      var backcolor = '';
-      this.valueMap.forEach(e => {
-        if(this.value == e.value) {
-          backcolor = e.backcolor;
-        }
-      });
-      return backcolor;
-    },
-    text: function() {
-      var text = '';
-      this.valueMap.forEach(e => {
-        if(this.value == e.value) {
-            text = e.text;
-        }
-      });
-      return text;
-    }
+    // backcolor: function() {
+    //   var backcolor = '';
+    //   this.valueMap.forEach(e => {
+    //     if(this.status == e.value) {
+    //       backcolor = e.backcolor;
+    //     }
+    //   });
+    //   return backcolor;
+    // },
+    // text: function() {
+    //   var text = '';
+    //   this.valueMap.forEach(e => {
+    //     if(this.status == e.value) {
+    //         text = e.text;
+    //     }
+    //   });
+    //   return text;
+    // }
   },
   watch: {
+    value(val) {
+      this.status = val;
+    },
+    status(val) {
+      // this.$emit('input', val);
+      this.backcolor = this.getBackcolorByValue(val);
+      this.text = this.getTextByValue(val);
+    }
   },
   mounted() {
+    // this.$emit('input', this.value);
   },
   methods: {
     onClick() {
       if(this.value == 0) {
-        this.value = 1;
-        this.$emit('on-click', this.value);
+        this.status = 1;
+        this.$emit('input', 1);
         return;
       }
       if(this.value == 1) {
-        this.value = 0;
-        this.$emit('on-click', this.value);
+        this.status = 0;
+        this.$emit('input', 0);
         return;
       }
     },
-    getValue() {
-      return this.value;
+    getTextByValue(val) {
+      var text = '';
+      this.valueMap.forEach(e => {
+        if(val == e.value) {
+            text = e.text;
+        }
+      });
+      return text;
+    },
+    getBackcolorByValue(val) {
+      var backcolor = '';
+      this.valueMap.forEach(e => {
+        if(val == e.value) {
+          backcolor = e.backcolor;
+        }
+      });
+      return backcolor;
     }
   }
 }
