@@ -9,6 +9,7 @@ import video1 from '@/pages/video/video1'
 import video2 from '@/pages/video/video2'
 import EditableTable from '@/pages/demo/EditableTable'
 import StatusTableDemo from '@/pages/status-table/status-table'
+import StatusTableDemo1 from '@/pages/status-table/status-table-demo'
 import HandsonTableDemo from '@/pages/demo/handson-table-demo'
 
 Vue.use(Router)
@@ -59,6 +60,11 @@ export default new Router({
           path: '/statusTable',
           name: 'statusTable',
           component: StatusTableDemo
+        },
+        {
+          path: '/statusTable1',
+          name: 'statusTable1',
+          component: StatusTableDemo1
         },
         {
           path: '/handson-table-demo',
