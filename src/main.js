@@ -24,6 +24,8 @@ import FlashPlayer from '@/components/player-with-flash'
 
 import TableWithPage from '@/components/table-with-page/table-with-page'
 
+import config from '@/config'
+
 Vue.config.productionTip = false
 
 // 插件
@@ -38,6 +40,10 @@ Vue.component('table-with-page', TableWithPage)
 
 // 全局注册axios
 Vue.prototype.$axios = axios
+/**
+ * @description 全局注册应用配置
+ */
+Vue.prototype.$config = config
 
 // 全局提示，使用iview的message组件
 // 全局提示的全局配置
