@@ -31,13 +31,14 @@ export default {
     breadCrumbList: [],
     tagNavList: [],
     homeRoute: {},
-    local: localRead('local'),
-    errorList: [],
-    hasReadErrorPage: false
+    // local: localRead('local'),
+    // errorList: [],
+    // hasReadErrorPage: false
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    errorCount: state => state.errorList.length
+    menuList: (state, getters, rootState) => getMenuByRouter(routers, routers),
+    // menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
+    // errorCount: state => state.errorList.length
   },
   mutations: {
     setBreadCrumb (state, route) {
@@ -85,31 +86,31 @@ export default {
         setTagNavListInLocalstorage([...state.tagNavList])
       }
     },
-    setLocal (state, lang) {
-      localSave('local', lang)
-      state.local = lang
-    },
-    addError (state, error) {
-      state.errorList.push(error)
-    },
-    setHasReadErrorLoggerStatus (state, status = true) {
-      state.hasReadErrorPage = status
-    }
+    // setLocal (state, lang) {
+    //   localSave('local', lang)
+    //   state.local = lang
+    // },
+    // addError (state, error) {
+    //   state.errorList.push(error)
+    // },
+    // setHasReadErrorLoggerStatus (state, status = true) {
+    //   state.hasReadErrorPage = status
+    // }
   },
-  actions: {
-    addErrorLog ({ commit, rootState }, info) {
-      if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)
-      const { user: { token, userId, userName } } = rootState
-      let data = {
-        ...info,
-        time: Date.parse(new Date()),
-        token,
-        userId,
-        userName
-      }
-      saveErrorLogger(info).then(() => {
-        commit('addError', data)
-      })
-    }
-  }
+  // actions: {
+  //   addErrorLog ({ commit, rootState }, info) {
+  //     if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)
+  //     const { user: { token, userId, userName } } = rootState
+  //     let data = {
+  //       ...info,
+  //       time: Date.parse(new Date()),
+  //       token,
+  //       userId,
+  //       userName
+  //     }
+  //     saveErrorLogger(info).then(() => {
+  //       commit('addError', data)
+  //     })
+  //   }
+  // }
 }

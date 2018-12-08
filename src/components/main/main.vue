@@ -78,32 +78,32 @@ export default {
       // return this.$store.state.app.tagRouter
       return this.$store.state.app.homeRoute
     },
-    userAvator () {
-      return this.$store.state.user.avatorImgPath
-    },
+    // userAvator () {
+    //   return this.$store.state.user.avatorImgPath
+    // },
     cacheList () {
       return ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
     },
     menuList () {
       return this.$store.getters.menuList
     },
-    local () {
-      return this.$store.state.app.local
-    },
-    hasReadErrorPage () {
-      return this.$store.state.app.hasReadErrorPage
-    }
+    // local () {
+    //   return this.$store.state.app.local
+    // },
+    // hasReadErrorPage () {
+    //   return this.$store.state.app.hasReadErrorPage
+    // }
   },
   methods: {
     ...mapMutations([
       'setBreadCrumb',
       'setTagNavList',
       'addTag',
-      'setLocal',
+      // 'setLocal',
       'setHomeRoute'
     ]),
     ...mapActions([
-      'handleLogin'
+      // 'handleLogin'
     ]),
     turnToPage (route) {
       let { name, params, query } = {}

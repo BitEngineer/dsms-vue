@@ -35,8 +35,12 @@ export default {
       //     })
       //   })
       // })
+      this.$store.user.userId = 'test';
+      this.$store.user.userName = 'test';
+      this.$store.user.token = 'test';
+      this.$store.user.access = 'test';
       this.$router.push({
-            name: this.$config.homeName
+        name: this.$config.homeName
       })
     }
   }
