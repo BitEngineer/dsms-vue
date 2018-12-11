@@ -21,7 +21,8 @@
       <Content class="main-content-con">
         <Layout class="main-layout-con">
           <div class="tag-nav-wrapper">
-            <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
+            <!-- <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/> -->
+            <tags-nav :value="currentTag" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
           </div>
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
@@ -43,7 +44,7 @@ import TagsNav from './components/tags-nav'
 // import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
 import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
-import { getTreePathByMenu, getBreadCrumbListByMenu } from './menu'
+import { getTreePathByMenu, getBreadCrumbListByMenu, getMenuByCode } from './menu'
 import routers from '@/router/routers'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
@@ -66,6 +67,7 @@ export default {
       maxLogo,
       isFullscreen: false,
       activeMenuName: this.$route.name,
+      currentTag: {}
     }
   },
   computed: {
@@ -76,10 +78,10 @@ export default {
     tagNavList () {
       return this.$store.state.app.tagNavList
     },
-    tagRouter () {
-      return this.$store.state.app.tagRouter
-      // return this.$store.state.app.homeRoute
-    },
+    // tagRouter () {
+    //   return this.$store.state.app.tagRouter
+    //   // return this.$store.state.app.homeRoute
+    // },
     cacheList () {
       return ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
     },
@@ -128,10 +130,19 @@ export default {
         query
       })
 
+      // 当前活动菜单
       this.activeMenuName = route.name ? route.name : route;
 
+      // 设置面包屑导航
       let breadcrumbList = getBreadCrumbListByMenu(this.menuList, this.activeMenuName);
       this.setBreadCrumb(breadcrumbList);
+
+      // 设置标签导航
+      // this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
+      let activeMenu = getMenuByCode(this.menuList, this.activeMenuName)
+      this.addTag({menuItem: activeMenu, type: 'unshift'});
+      // 设置当前标签
+      this.currentTag = activeMenu
     },
     handleCollapsedChange (state) {
       this.collapsed = state
@@ -148,30 +159,41 @@ export default {
       this.setTagNavList(res)
     },
     handleClick (item) {
+      this.currentTag = item;
       this.turnToPage(item)
     },
+    getNextTag() {
+
+    }
   },
   watch: {
-    '$route' (newRoute) {
-      const { name, query, params, meta } = newRoute
-      this.addTag({
-        route: { name, query, params, meta },
-        type: 'push'
-      })
-      // this.setBreadCrumb(newRoute)
-      this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
-      // this.$refs.sideMenu.updateOpenName(newRoute.name)
-    },
+    // '$route' (newRoute) {
+    //   const { name, query, params, meta } = newRoute
+    //   this.addTag({
+    //     route: { name, query, params, meta },
+    //     type: 'push'
+    //   })
+    // this.setBreadCrumb(newRoute)
+    //   this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
+    // this.$refs.sideMenu.updateOpenName(newRoute.name)
+    // },
   },
   mounted () {
-    /**
-     * @description 初始化设置面包屑导航和标签导航
-     */
+    // 设置标签导航
+    // this.setTagNavList()
+    // this.setHomeRoute(routers)
+    // this.addTag({
+    //   route: this.$store.state.app.homeRoute
+    // })
+
+    // 设置标签导航
     this.setTagNavList()
-    this.setHomeRoute(routers)
-    this.addTag({
-      route: this.$store.state.app.homeRoute
-    })
+    // 默认将配置的首页放入
+    let homeMenu = getMenuByCode(this.menuList, 'home');
+    this.addTag({menuItem: homeMenu, type: 'unshift'});
+    this.currentTag = homeMenu;
+
+    // 设置面包屑导航
     this.setBreadCrumb(getBreadCrumbListByMenu(this.menuList, 'home'))
     // this.setBreadCrumb(this.$route)
 

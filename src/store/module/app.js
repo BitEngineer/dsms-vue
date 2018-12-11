@@ -16,7 +16,8 @@ import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
-import {menus} from '@/pages/main-page/menu'
+import { menus, getTreePathByMenu} from '@/pages/main-page/menu'
+import { getMenuByCode } from '../../pages/main-page/menu';
 const { homeName } = config
 
 const closePage = (state, route) => {
@@ -31,7 +32,7 @@ export default {
   state: {
     breadCrumbList: [],
     tagNavList: [],
-    homeRoute: {},
+    homeRoute: {}
     // local: localRead('local'),
     // errorList: [],
     // hasReadErrorPage: false
@@ -60,7 +61,7 @@ export default {
       if (list) {
         tagList = [...list]
       // } else tagList = getTagNavListFromLocalstorage() || []
-    } else tagList = []
+      } else tagList = []
       if (tagList[0] && tagList[0].name !== homeName) tagList.shift()
       let homeTagIndex = tagList.findIndex(item => item.name === homeName)
       if (homeTagIndex > 0) {
@@ -85,17 +86,26 @@ export default {
         closePage(state, route)
       }
     },
-    addTag (state, { route, type = 'unshift' }) {
-      let router = getRouteTitleHandled(route)
-      if (!routeHasExist(state.tagNavList, router)) {
-        if (type === 'push') state.tagNavList.push(router)
+    // addTag (state, { route, type = 'unshift' }) {
+    //   let router = getRouteTitleHandled(route)
+    //   if (!routeHasExist(state.tagNavList, router)) {
+    //     if (type === 'push') state.tagNavList.push(router)
+    //     else {
+    //       if (router.name === homeName) state.tagNavList.unshift(router)
+    //       else state.tagNavList.splice(1, 0, router)
+    //     }
+    //     // setTagNavListInLocalstorage([...state.tagNavList])
+    //   }
+    // }
+    addTag (state, { menuItem, type = 'unshift' }) {
+      if (getMenuByCode(state.tagNavList, menuItem.code) == null) {
+        if (type === 'push') state.tagNavList.push(menuItem)
         else {
-          if (router.name === homeName) state.tagNavList.unshift(router)
-          else state.tagNavList.splice(1, 0, router)
+          if (menuItem.name === homeName) state.tagNavList.unshift(menuItem)
+          else state.tagNavList.splice(1, 0, menuItem)
         }
-        // setTagNavListInLocalstorage([...state.tagNavList])
       }
-    },
+    }
     // setLocal (state, lang) {
     //   localSave('local', lang)
     //   state.local = lang
@@ -106,7 +116,7 @@ export default {
     // setHasReadErrorLoggerStatus (state, status = true) {
     //   state.hasReadErrorPage = status
     // }
-  },
+  }
   // actions: {
   //   addErrorLog ({ commit, rootState }, info) {
   //     if (!window.location.href.includes('error_logger_page')) commit('setHasReadErrorLoggerStatus', false)

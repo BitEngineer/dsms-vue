@@ -78,6 +78,15 @@ export default {
     currentRouteObj () {
       const { name, params, query } = this.value
       return { name, params, query }
+    },
+    currentTagObj: {
+      get() {
+      const { code, name, title } = this.value
+      return { code, name, title }
+      },
+      set() {
+
+      }
     }
   },
   methods: {
@@ -138,11 +147,21 @@ export default {
     handleClick (item) {
       this.$emit('input', item)
     },
+    // showTitleInside (item) {
+    //   return showTitle(item, this)
+    // },
     showTitleInside (item) {
-      return showTitle(item, this)
+      return item.title
     },
+    // isCurrentTag (item) {
+    //   return routeEqual(this.currentRouteObj, item)
+    // },
     isCurrentTag (item) {
-      return routeEqual(this.currentRouteObj, item)
+      let flag = false
+      if(this.currentTagObj.name === item.name) {
+        flag = true
+      }
+      return flag
     },
     moveToView (tag) {
       const outerWidth = this.$refs.scrollOuter.offsetWidth

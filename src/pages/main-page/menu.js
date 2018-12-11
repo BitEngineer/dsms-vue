@@ -108,14 +108,16 @@ export const getMenuByName = (menuList, menuName) => {
 }
 
 export const getMenuByCode = (menuList, menuCode) => {
-  for (let i = 0; i < menuList.length; i++) {
-    if (menuList[i].code === menuCode) {
-      return menuList[i];
-    } else if (menuList[i].children) {
-      let result = getMenuByCode(menuList[i].children, menuCode);
-      return result;
-    } else {
-      continue;
+  if (menuList.length > 0) {
+    for (let i = 0; i < menuList.length; i++) {
+      if (menuList[i].code === menuCode) {
+        return menuList[i];
+      } else if (menuList[i].children) {
+        let result = getMenuByCode(menuList[i].children, menuCode);
+        return result;
+      } else {
+        continue;
+      }
     }
   }
   return null;
