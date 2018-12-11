@@ -3,9 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+import i18n from '@/locale'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import 'iview/dist/styles/fonts/ionicons.eot'
+// import 'iview/dist/styles/fonts/ionicons.eot'
 import 'iview/dist/styles/fonts/ionicons.svg'
 import 'iview/dist/styles/fonts/ionicons.ttf'
 import 'iview/dist/styles/fonts/ionicons.woff'
@@ -30,7 +32,10 @@ Vue.config.productionTip = false
 
 // 插件
 Vue.use(router)
-Vue.use(iView)
+// Vue.use(iView)
+Vue.use(iView, {
+  i18n: (key, value) => i18n.t(key, value)
+})
 Vue.use(VueVideoPlayer)
 
 // 组件注册-全局
@@ -55,6 +60,8 @@ Vue.prototype.$Message.config({
 new Vue({
   el: '#app',
   router,
+  store,
+  i18n,
   components: { App },
   template: '<App/>'
 })

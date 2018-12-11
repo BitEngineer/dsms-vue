@@ -1,17 +1,17 @@
 <template>
   <Layout style="height: 100%" class="main">
     <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
-      <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
+      <side-menu accordion ref="sideMenu" :active-name="activeMenuName" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
-        <div class="logo-con">
+        <!-- <div class="logo-con">
           <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
           <img v-show="collapsed" :src="minLogo" key="min-logo" />
-        </div>
+        </div> -->
       </side-menu>
     </Sider>
     <Layout>
       <Header class="header-con">
-        <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
+        <header-bar :collapsed="collapsed" showBreadCrumb :breadCrumbList='breadCrumbList' @on-coll-change="handleCollapsedChange">
           <!-- <user :message-unread-count="messageUnreadCount" :user-avator="userAvator"/>
           <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
           <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store>
@@ -37,12 +37,13 @@
 import SideMenu from './components/side-menu'
 import HeaderBar from './components/header-bar'
 import TagsNav from './components/tags-nav'
-// import User from './components/user'
 // import Fullscreen from './components/fullscreen'
+// import User from './components/user'
 // import Language from './components/language'
 // import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
 import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
+import { getTreePathByMenu, getBreadCrumbListByMenu } from './menu'
 import routers from '@/router/routers'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
@@ -53,8 +54,8 @@ export default {
     SideMenu,
     HeaderBar,
     TagsNav,
-    // Language,
     // Fullscreen,
+    // Language,
     // ErrorStore,
     // User
   },
@@ -63,30 +64,34 @@ export default {
       collapsed: false,
       minLogo,
       maxLogo,
-      isFullscreen: false
+      isFullscreen: false,
+      activeMenuName: this.$route.name,
     }
   },
   computed: {
     ...mapGetters([
-      'errorCount',
-      'messageUnreadCount'
+      // 'errorCount',
+      // 'messageUnreadCount'
     ]),
     tagNavList () {
       return this.$store.state.app.tagNavList
     },
     tagRouter () {
-      // return this.$store.state.app.tagRouter
-      return this.$store.state.app.homeRoute
+      return this.$store.state.app.tagRouter
+      // return this.$store.state.app.homeRoute
     },
-    // userAvator () {
-    //   return this.$store.state.user.avatorImgPath
-    // },
     cacheList () {
       return ['ParentView', ...this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []]
     },
     menuList () {
       return this.$store.getters.menuList
     },
+    breadCrumbList() {
+      return this.$store.state.app.breadCrumbList
+    }
+    // userAvator () {
+    //   return this.$store.state.user.avatorImgPath
+    // },
     // local () {
     //   return this.$store.state.app.local
     // },
@@ -122,6 +127,11 @@ export default {
         params,
         query
       })
+
+      this.activeMenuName = route.name ? route.name : route;
+
+      let breadcrumbList = getBreadCrumbListByMenu(this.menuList, this.activeMenuName);
+      this.setBreadCrumb(breadcrumbList);
     },
     handleCollapsedChange (state) {
       this.collapsed = state
@@ -139,7 +149,7 @@ export default {
     },
     handleClick (item) {
       this.turnToPage(item)
-    }
+    },
   },
   watch: {
     '$route' (newRoute) {
@@ -148,10 +158,10 @@ export default {
         route: { name, query, params, meta },
         type: 'push'
       })
-      this.setBreadCrumb(newRoute)
+      // this.setBreadCrumb(newRoute)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
-      this.$refs.sideMenu.updateOpenName(newRoute.name)
-    }
+      // this.$refs.sideMenu.updateOpenName(newRoute.name)
+    },
   },
   mounted () {
     /**
@@ -162,9 +172,12 @@ export default {
     this.addTag({
       route: this.$store.state.app.homeRoute
     })
-    this.setBreadCrumb(this.$route)
+    this.setBreadCrumb(getBreadCrumbListByMenu(this.menuList, 'home'))
+    // this.setBreadCrumb(this.$route)
+
     // 设置初始语言
-    this.setLocal(this.$i18n.locale)
+    // this.setLocal(this.$i18n.locale)
+
     // 如果当前打开页面不在标签栏中，跳到homeName页
     if (!this.tagNavList.find(item => item.name === this.$route.name)) {
       this.$router.push({

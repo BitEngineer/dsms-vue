@@ -1,7 +1,8 @@
 <template>
   <div class="side-menu-wrapper">
     <slot></slot>
-    <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
+    <!-- <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect"> -->
+    <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
           <side-menu-item v-if="showChildren(item)" :key="`menu-${item.name}`" :parent-item="item"></side-menu-item>
@@ -37,6 +38,10 @@ export default {
     CollapsedMenu
   },
   props: {
+    /*
+     * menuList的元素格式
+     * {name,title,icon}
+     */
     menuList: {
       type: Array,
       default () {
@@ -58,32 +63,35 @@ export default {
       type: Number,
       default: 16
     },
-    accordion: Boolean,
+    accordion: {
+      type: Boolean,
+      default: false
+    },
     activeName: {
       type: String,
       default: ''
     },
-    openNames: {
-      type: Array,
-      default: () => []
-    }
+    // openNames: {
+    //   type: Array,
+    //   default: () => []
+    // }
   },
   data () {
     return {
-      openedNames: []
+      // openedNames: []
     }
   },
   methods: {
     handleSelect (name) {
       this.$emit('on-select', name)
     },
-    getOpenedNamesByActiveName (name) {
-      return this.$route.matched.map(item => item.name).filter(item => item !== name)
-    },
-    updateOpenName (name) {
-      if (name === this.$config.homeName) this.openedNames = []
-      else this.openedNames = this.getOpenedNamesByActiveName(name)
-    }
+    // getOpenedNamesByActiveName (name) {
+    //   return this.$route.matched.map(item => item.name).filter(item => item !== name)
+    // },
+    // updateOpenName (name) {
+    //   if (name === this.$config.homeName) this.openedNames = []
+    //   else this.openedNames = this.getOpenedNamesByActiveName(name)
+    // }
   },
   computed: {
     textColor () {
@@ -91,21 +99,21 @@ export default {
     }
   },
   watch: {
-    activeName (name) {
-      if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
-      else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
-    },
-    openNames (newNames) {
-      this.openedNames = newNames
-    },
-    openedNames () {
-      this.$nextTick(() => {
-        this.$refs.menu.updateOpened()
-      })
-    }
+    // activeName (name) {
+    //   if (this.accordion) this.openedNames = this.getOpenedNamesByActiveName(name)
+    //   else this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+    // },
+    // openNames (newNames) {
+    //   this.openedNames = newNames
+    // },
+    // openedNames () {
+    //   this.$nextTick(() => {
+    //     this.$refs.menu.updateOpened()
+    //   })
+    // }
   },
   mounted () {
-    this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
+    // this.openedNames = getUnion(this.openedNames, this.getOpenedNamesByActiveName(name))
   }
 }
 </script>

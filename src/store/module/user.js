@@ -16,7 +16,7 @@ export default {
     userId: '',
     // avatorImgPath: '',
     token: getToken(),
-    access: '',
+    access: ''
     // hasGetInfo: false,
     // messageUnreadList: [],
     // messageReadedList: [],
@@ -39,7 +39,7 @@ export default {
     setToken (state, token) {
       state.token = token
       setToken(token)
-    },
+    }
     // setHasGetInfo (state, status) {
     //   state.hasGetInfo = status
     // },
@@ -66,7 +66,7 @@ export default {
     // messageUnreadCount: state => state.messageUnreadList.length,
     // messageReadedCount: state => state.messageReadedList.length,
     // messageTrashCount: state => state.messageTrashList.length
-  },
+  }
   // actions: {
   //   // 登录
   //   handleLogin ({ commit }, {userName, password}) {

@@ -3,7 +3,8 @@
     <Breadcrumb :style="{fontSize: `${fontSize}px`}">
       <BreadcrumbItem v-for="item in list" :to="item.to" :key="`bread-crumb-${item.name}`">
         <common-icon style="margin-right: 4px;" :type="item.icon || ''"/>
-        {{ showTitle(item) }}
+        <!-- {{ showTitle(item) }} -->
+        {{item.title}}
       </BreadcrumbItem>
     </Breadcrumb>
   </div>
@@ -11,13 +12,16 @@
 <script>
 import { showTitle } from '@/libs/util'
 import CommonIcon from '@/components/common-icon'
-import './custom-bread-crumb.less'
 export default {
   name: 'customBreadCrumb',
   components: {
     CommonIcon
   },
   props: {
+    /*
+     * list中的元素基本格式：
+     * {name, title, icon, to}
+     */
     list: {
       type: Array,
       default: () => []
@@ -44,3 +48,7 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+@import './custom-bread-crumb.less';
+</style>
+

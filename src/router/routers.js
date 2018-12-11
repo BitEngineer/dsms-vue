@@ -1,5 +1,5 @@
 import Login from '@/pages/login/login'
-import index from '@/pages/index'
+import Index from '@/pages/index'
 import User from '@/pages/user/User'
 import TableDemo from '@/pages/user/TableDemo'
 import video from '@/pages/video/video'
@@ -26,70 +26,166 @@ import HandsonTableDemo from '@/pages/demo/handson-table-demo'
  * }
  */
 
+// export default [
+//   {
+//     path: '/login',
+//     name: 'login',
+//     meta: {
+//       title: 'Login - 登录',
+//       hideInMenu: true
+//     },
+//     component: () => import('@/pages/login/login.vue')
+//   },
+//   {
+//     path: '/',
+//     name: '_home',
+//     component: Index,
+//     children: [
+//       {
+//         path: '/home',
+//         name: 'home',
+//         meta: {
+//           hideInMenu: false,
+//           title: '首页',
+//           notCache: true,
+//           icon: 'md-home'
+//         },
+//         component: () => import('@/pages/home/home.vue')
+//       },
+//       {
+//         path: 'tableDemo',
+//         name: 'TableDemo',
+//         meta: {
+//           hideInMenu: false,
+//           title: '表格组件使用',
+//           notCache: true,
+//           icon: 'md-person'
+//         },
+//         component: () => import('@/pages/user/TableDemo.vue')
+//       },
+//       {
+//         path: 'statusTableDemo',
+//         name: 'StatusTableDemo',
+//         meta: {
+//           hideInMenu: false,
+//           title: '状态表格组件使用',
+//           notCache: true,
+//           icon: 'md-person'
+//         },
+//         component: () => import('@/pages/status-table/status-table.vue')
+//       },
+//       {
+//         path: 'statusTableDemo1',
+//         name: 'StatusTableDemo1',
+//         meta: {
+//           hideInMenu: false,
+//           title: '状态表格组件使用',
+//           notCache: true,
+//           icon: 'md-person'
+//         },
+//         component: () => import('@/pages/status-table/status-table-demo.vue')
+//       }
+//     ]
+//   }
+// ]
+
+// export default [
+//   {
+//     path: '/login',
+//     name: 'login',
+//     meta: {
+//       title: 'Login - 登录',
+//       hideInMenu: true
+//     },
+//     component: () => import('@/pages/login/login.vue')
+//   },
+//   {
+//     path: '/',
+//     name: '_home',
+//     component: Index,
+//     children: [
+//       {
+//         path: '/home',
+//         name: 'home',
+//         meta: {
+//           title: '首页',
+//           icon: 'md-home'
+//         },
+//         component: () => import('@/pages/home/home.vue')
+//       },
+//       {
+//         path: 'tableDemo',
+//         name: 'TableDemo',
+//         meta: {
+//           title: '表格组件使用',
+//           icon: 'md-person'
+//         },
+//         component: () => import('@/pages/user/TableDemo.vue')
+//       },
+//       {
+//         path: 'statusTableDemo',
+//         name: 'StatusTableDemo',
+//         meta: {
+//           title: '状态表格组件使用',
+//           icon: 'md-person'
+//         },
+//         component: () => import('@/pages/status-table/status-table.vue')
+//       },
+//       {
+//         path: 'statusTableDemo1',
+//         name: 'StatusTableDemo1',
+//         meta: {
+//           title: '状态表格组件使用',
+//           icon: 'md-person'
+//         },
+//         component: () => import('@/pages/status-table/status-table-demo.vue')
+//       }
+//     ]
+//   }
+// ]
+
 export default [
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: Login
-  // },
   {
     path: '/login',
     name: 'login',
-    meta: {
-      title: 'Login - 登录',
-      hideInMenu: true
-    },
     component: () => import('@/pages/login/login.vue')
   },
   {
     path: '/',
-    name: 'index',
-    component: index,
+    name: '_home',
+    component: Index,
     children: [
       {
-        path: '/user',
-        name: 'User',
-        component: User
+        path: '/home',
+        name: 'home',
+        meta: {
+          title: '首页'
+        },
+        component: () => import('@/pages/home/home.vue')
       },
       {
-        path: '/tableDemo',
-        name: 'tableDemo',
-        component: TableDemo
+        path: 'tableDemo',
+        name: 'TableDemo',
+        meta: {
+          title: '分页表格demo'
+        },
+        component: () => import('@/pages/user/TableDemo.vue')
       },
       {
-        path: '/video',
-        name: 'video',
-        component: video
+        path: 'statusTableDemo',
+        name: 'StatusTableDemo',
+        meta: {
+          title: '状态表demo'
+        },
+        component: () => import('@/pages/status-table/status-table.vue')
       },
       {
-        path: '/video1',
-        name: 'video1',
-        component: video1
-      },
-      {
-        path: '/video2',
-        name: 'video2',
-        component: video2
-      },
-      {
-        path: '/editableTable',
-        name: 'editableTable',
-        component: EditableTable
-      },
-      {
-        path: '/statusTable',
-        name: 'statusTable',
-        component: StatusTableDemo
-      },
-      {
-        path: '/statusTable1',
-        name: 'statusTable1',
-        component: StatusTableDemo1
-      },
-      {
-        path: '/handson-table-demo',
-        name: 'HandsonTableDemo',
-        component: HandsonTableDemo
+        path: 'statusTableDemo1',
+        name: 'StatusTableDemo1',
+        meta: {
+          title: '状态表demo1'
+        },
+        component: () => import('@/pages/status-table/status-table-demo.vue')
       }
     ]
   }

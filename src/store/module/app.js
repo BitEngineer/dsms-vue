@@ -1,7 +1,7 @@
 import {
   getBreadCrumbList,
-  setTagNavListInLocalstorage,
   getMenuByRouter,
+  setTagNavListInLocalstorage,
   getTagNavListFromLocalstorage,
   getHomeRoute,
   getNextRoute,
@@ -16,6 +16,7 @@ import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
+import {menus} from '@/pages/main-page/menu'
 const { homeName } = config
 
 const closePage = (state, route) => {
@@ -36,13 +37,20 @@ export default {
     // hasReadErrorPage: false
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, routers),
+    menuList: (state, getters, rootState) => {
+      let res = menus
+      return res;
+    }
+    // menuList: (state, getters, rootState) => getMenuByRouter(routers, ''),
     // menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
     // errorCount: state => state.errorList.length
   },
   mutations: {
-    setBreadCrumb (state, route) {
-      state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+    // setBreadCrumb (state, route) {
+    //   state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+    // },
+    setBreadCrumb (state, breadCrumbList) {
+      state.breadCrumbList = breadCrumbList
     },
     setHomeRoute (state, routes) {
       state.homeRoute = getHomeRoute(routes, homeName)
@@ -51,7 +59,8 @@ export default {
       let tagList = []
       if (list) {
         tagList = [...list]
-      } else tagList = getTagNavListFromLocalstorage() || []
+      // } else tagList = getTagNavListFromLocalstorage() || []
+    } else tagList = []
       if (tagList[0] && tagList[0].name !== homeName) tagList.shift()
       let homeTagIndex = tagList.findIndex(item => item.name === homeName)
       if (homeTagIndex > 0) {
@@ -59,7 +68,8 @@ export default {
         tagList.unshift(homeTag)
       }
       state.tagNavList = tagList
-      setTagNavListInLocalstorage([...tagList])
+      console.log(tagList, 'tagList.....');
+      // setTagNavListInLocalstorage([...tagList])
     },
     closeTag (state, route) {
       let tag = state.tagNavList.filter(item => routeEqual(item, route))
@@ -83,7 +93,7 @@ export default {
           if (router.name === homeName) state.tagNavList.unshift(router)
           else state.tagNavList.splice(1, 0, router)
         }
-        setTagNavListInLocalstorage([...state.tagNavList])
+        // setTagNavListInLocalstorage([...state.tagNavList])
       }
     },
     // setLocal (state, lang) {
