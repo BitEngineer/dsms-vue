@@ -1,14 +1,4 @@
-import Login from '@/pages/login/login'
 import Index from '@/pages/index'
-import User from '@/pages/user/User'
-import TableDemo from '@/pages/user/TableDemo'
-import video from '@/pages/video/video'
-import video1 from '@/pages/video/video1'
-import video2 from '@/pages/video/video2'
-import EditableTable from '@/pages/demo/EditableTable'
-import StatusTableDemo from '@/pages/status-table/status-table'
-import StatusTableDemo1 from '@/pages/status-table/status-table-demo'
-import HandsonTableDemo from '@/pages/demo/handson-table-demo'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -186,6 +176,46 @@ export default [
           title: '状态表demo1'
         },
         component: () => import('@/pages/status-table/status-table-demo.vue')
+      },
+      {
+        path: 'editableTableDemo',
+        name: 'EditableTableDemo',
+        meta: {
+          title: '可编辑表格demo'
+        },
+        component: () => import('@/pages/demo/EditableTable')
+      },
+      {
+        path: 'handsontableDemo',
+        name: 'HandsontableDemo',
+        meta: {
+          title: 'handsontable演示'
+        },
+        component: () => import('@/pages/demo/handson-table-demo')
+      },
+      {
+        path: 'video',
+        name: 'video',
+        meta: {
+          title: 'video'
+        },
+        component: () => import('@/pages/video/video')
+      },
+      {
+        path: 'video1',
+        name: 'video1',
+        meta: {
+          title: 'video1'
+        },
+        component: () => import('@/pages/video/video1')
+      },
+      {
+        path: 'video2',
+        name: 'video2',
+        meta: {
+          title: 'video2'
+        },
+        component: () => import('@/pages/video/video2')
       }
     ]
   }

@@ -122,8 +122,10 @@ export default {
         this.$emit('on-close', res, 'all')
       } else if (type.includes('others')) {
         // 关闭除当前页和home页的其他页
-        let res = this.list.filter(item => routeEqual(this.currentRouteObj, item) || item.name === this.$config.homeName)
-        this.$emit('on-close', res, 'others', this.currentRouteObj)
+        // let res = this.list.filter(item => routeEqual(this.currentRouteObj, item) || item.name === this.$config.homeName)
+        // this.$emit('on-close', res, 'others', this.currentRouteObj)
+        let res = this.list.filter(item => this.tagEqual(item, this.currentTagObj) || item.name === this.$config.homeName)
+        this.$emit('on-close', res, 'others', this.currentTagObj)
         setTimeout(() => {
           this.getTagElementByName(this.currentRouteObj.name)
         }, 100)
@@ -141,7 +143,8 @@ export default {
       }
     },
     close (route) {
-      let res = this.list.filter(item => !routeEqual(route, item))
+      // let res = this.list.filter(item => !routeEqual(route, item))
+      let res = this.list.filter(item => !this.tagEqual(item, route) )
       this.$emit('on-close', res, undefined, route)
     },
     handleClick (item) {
@@ -156,6 +159,13 @@ export default {
     // isCurrentTag (item) {
     //   return routeEqual(this.currentRouteObj, item)
     // },
+    tagEqual(target, item) {
+      let flag = false
+      if(target.name === item.name) {
+        flag = true
+      }
+      return flag
+    },
     isCurrentTag (item) {
       let flag = false
       if(this.currentTagObj.name === item.name) {

@@ -87,6 +87,22 @@ export const menus = [
       icon: 'md-person',
       path: '/statusTableDemo1',
       treePath: 'home.demo.StatusTableDemo1'
+    },
+    {
+      code: 'EditableTableDemo',
+      name: 'EditableTableDemo',
+      title: '可编辑表格demo',
+      icon: 'md-person',
+      path: '/editableTableDemo',
+      treePath: 'home.demo.EditableTableDemo'
+    },
+    {
+      code: 'HandsontableDemo',
+      name: 'HandsontableDemo',
+      title: 'handsontable演示',
+      icon: 'md-person',
+      path: '/handsontableDemo',
+      treePath: 'home.demo.HandsontableDemo'
     }]
   }
 ]

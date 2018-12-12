@@ -147,24 +147,57 @@ export default {
     handleCollapsedChange (state) {
       this.collapsed = state
     },
-    handleCloseTag (res, type, route) {
-      if (type === 'all') {
-        this.turnToPage(this.$config.homeName)
-      } else if (routeEqual(this.$route, route)) {
-        if (type !== 'others') {
-          const nextRoute = getNextRoute(this.tagNavList, route)
-          this.$router.push(nextRoute)
+    // handleCloseTag (res, type, route) {
+    //   if (type === 'all') {
+    //     this.turnToPage(this.$config.homeName)
+    //   } else if (routeEqual(this.$route, route)) {
+    //     if (type !== 'others') {
+    //       const nextRoute = getNextRoute(this.tagNavList, route)
+    //       this.$router.push(nextRoute)
+    //     }
+    //   }
+    //   this.setTagNavList(res)
+    // },
+    handleCloseTag (tags, type, closingTag) {
+      if(type === 'all') {
+        // 路由跳转
+        this.$router.push(this.$config.homeName)
+        // 当前活动菜单
+        this.activeMenuName = this.$config.homeName
+        // 设置面包屑导航
+        let breadcrumbList = getBreadCrumbListByMenu(this.menuList, this.$config.homeName)
+        this.setBreadCrumb(breadcrumbList);
+        // 设置标签导航
+        this.setTagNavList(tags);
+        this.currentTag = getMenuByCode(tags, this.$config.homeName)
+      } else if(type === 'others') {
+        this.setTagNavList(tags)
+      } else {
+        // 下一个当前tag
+        let nextTag = {}
+        if(this.currentTag.name === closingTag.name) {
+          let i = this.tagNavList.indexOf(closingTag)
+          nextTag = this.tagNavList[i-1]
+        }else{
+          nextTag = this.currentTag
         }
+        
+        // 路由跳转
+        this.$router.push(nextTag.name)
+        // 当前活动菜单
+        this.activeMenuName = nextTag.name
+        // 设置面包屑导航
+        let breadcrumbList = getBreadCrumbListByMenu(this.menuList, nextTag.name)
+        this.setBreadCrumb(breadcrumbList)
+        // 设置标签导航
+        this.setTagNavList(tags);
+        this.currentTag = nextTag
       }
-      this.setTagNavList(res)
     },
     handleClick (item) {
-      this.currentTag = item;
+      this.currentTag = item
       this.turnToPage(item)
     },
-    getNextTag() {
-
-    }
   },
   watch: {
     // '$route' (newRoute) {
