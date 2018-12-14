@@ -32,11 +32,11 @@
             v-for="(item, index) in list"
             ref="tagsPageOpened"
             :key="`tag-nav-${index}`"
-            :name="item.name"
+            :name="getTagName(item)"
             :data-route-item="item"
             @on-close="handleClose(item)"
             @click.native="handleClick(item)"
-            :closable="item.name !== $config.homeName"
+            :closable="isTagCloseable(item)"
             :color="isCurrentTag(item) ? 'primary' : 'default'"
             @contextmenu.prevent.native="contextMenu(item, $event)"
           >{{ showTitleInside(item) }}</Tag>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { showTitle, routeEqual } from '@/libs/util'
+// import { showTitle, routeEqual } from '@/libs/util'
 import beforeClose from '@/router/before-close'
 export default {
   name: 'TagsNav',
@@ -79,17 +79,18 @@ export default {
       const { name, params, query } = this.value
       return { name, params, query }
     },
-    currentTagObj: {
-      get() {
+    currentTagObj() {
       const { code, name, title } = this.value
       return { code, name, title }
-      },
-      set() {
-
-      }
     }
   },
   methods: {
+    getTagName(item) {
+      return item.code
+    },
+    isTagCloseable(item) {
+      item.name !== this.$config.homeName
+    },
     handlescroll (e) {
       var type = e.type
       let delta = 0
@@ -161,14 +162,14 @@ export default {
     // },
     tagEqual(target, item) {
       let flag = false
-      if(target.name === item.name) {
+      if(target.code === item.code) {
         flag = true
       }
       return flag
     },
     isCurrentTag (item) {
       let flag = false
-      if(this.currentTagObj.name === item.name) {
+      if(this.currentTagObj.code === item.code) {
         flag = true
       }
       return flag
@@ -193,7 +194,9 @@ export default {
       this.$nextTick(() => {
         this.refsTag = this.$refs.tagsPageOpened
         this.refsTag.forEach((item, index) => {
-          if (routeEqual(route, item.$attrs['data-route-item'])) {
+          // if (routeEqual(route, item.$attrs['data-route-item'])) {
+          let targetItemData = item.$attrs['data-route-item']
+          if (targetItemData.code === route) {
             let tag = this.refsTag[index].$el
             this.moveToView(tag)
           }
@@ -214,9 +217,9 @@ export default {
     }
   },
   watch: {
-    '$route' (to) {
-      this.getTagElementByName(to)
-    },
+    // '$route' (to) {
+    //   this.getTagElementByName(to)
+    // },
     visible (value) {
       if (value) {
         document.body.addEventListener('click', this.closeMenu)
@@ -226,8 +229,11 @@ export default {
     }
   },
   mounted () {
+    // setTimeout(() => {
+    //   this.getTagElementByName(this.$route)
+    // }, 200)
     setTimeout(() => {
-      this.getTagElementByName(this.$route)
+      this.getTagElementByName(this.currentTagObj.code)
     }, 200)
   }
 }

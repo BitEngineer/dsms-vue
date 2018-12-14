@@ -9,7 +9,7 @@ export default {
   },
   computed: {
     parentName () {
-      return this.parentItem.name
+      return this.parentItem.code ? this.parentItem.code : this.parentItem.name
     },
     children () {
       return this.parentItem.children

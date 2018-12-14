@@ -43,11 +43,11 @@ import TagsNav from './components/tags-nav'
 // import Language from './components/language'
 // import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
-import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
+// import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
 import { getTreePathByMenu, getBreadCrumbListByMenu, getMenuByCode } from './menu'
 import routers from '@/router/routers'
-import minLogo from '@/assets/images/logo-min.jpg'
-import maxLogo from '@/assets/images/logo.jpg'
+// import minLogo from '@/assets/images/logo-min.jpg'
+// import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
 export default {
   name: 'Main',
@@ -63,8 +63,8 @@ export default {
   data () {
     return {
       collapsed: false,
-      minLogo,
-      maxLogo,
+      // minLogo,
+      // maxLogo,
       isFullscreen: false,
       activeMenuName: this.$route.name,
       currentTag: {}
