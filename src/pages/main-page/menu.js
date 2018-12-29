@@ -129,22 +129,47 @@ export const menus = [
   }
 ]
 
+//export const getMenuByCode = (menuList, menuCode) => {
+//  if (menuList.length > 0) {
+//    for (let i = 0; i < menuList.length; i++) {
+//      if (menuList[i].code === menuCode) {
+//        return menuList[i];
+//      } else if (menuList[i].children && menuList[i].children.length > 0) {
+//        let result = getMenuByCode(menuList[i].children, menuCode);
+//        if (result != null || i === (menuList.length - 1)) {
+//          return result
+//        }
+//      } else {
+//        if (i === (menuList.length - 1)) {
+//          return null
+//        }
+//      }
+//    }
+//  }
+//  return null
+//}
+
 export const getMenuByCode = (menuList, menuCode) => {
+  return getMenuFromQueue(menuList, menuCode)
+}
+
+// 树的广度优先遍历
+export const getMenuFromQueue = (menuList, menuCode) => {
   if (menuList.length > 0) {
+    let menuQueue = []
     for (let i = 0; i < menuList.length; i++) {
       if (menuList[i].code === menuCode) {
         return menuList[i];
-      } else if (menuList[i].children && menuList[i].children.length > 0) {
-        let result = getMenuByCode(menuList[i].children, menuCode);
-        if (result != null || i === (menuList.length - 1)) {
-          return result
-        }
       } else {
-        if (i === (menuList.length - 1)) {
-          return null
+        if(menuList[i].children && menuList[i].children.length > 0) {
+          menuList[i].children.forEach(item => {
+            menuQueue.push(item)
+          })
         }
       }
     }
+    let result = getMenuFromQueue(menuQueue, menuCode)
+    return result
   }
   return null
 }
